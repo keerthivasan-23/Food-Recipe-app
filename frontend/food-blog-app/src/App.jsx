@@ -8,10 +8,10 @@ import  AddFoodRecipe  from './pages/AddFoodRecipe'
 import EditRecipe from './pages/EditRecipe'
 import RecipeDetails from './pages/RecipeDetails'
 
-
+const API_URL = "https://food-recipe-app-hdhr.onrender.com";
 const getAllRecipes=async()=>{
   let allRecipes=[]
-  await axios.get('https://food-recipe-app-hdhr.onrender.com/recipe').then(res=>{
+  await axios.get(`${API_URL}/recipe`).then(res=>{
     allRecipes=res.data
   })
   return allRecipes
@@ -35,10 +35,10 @@ const getFavRecipes=()=>{
 
 const getRecipe=async({params})=>{
   let recipe;
-  await axios.get(`https://food-recipe-app-hdhr.onrender.com/recipe/${params.id}`)
+  await axios.get(`${API_URL}recipe/${params.id}`)
   .then(res=>recipe=res.data)
 
-  await axios.get(`https://food-recipe-app-hdhr.onrender.com/user/${recipe.createdBy}`)
+  await axios.get(`${API_URL}/user/${recipe.createdBy}`)
   .then(res=>{
     recipe={...recipe,email:res.data.email}
   })
@@ -48,7 +48,7 @@ const getRecipe=async({params})=>{
 
 const router=createBrowserRouter([
   {path:"/",element:<MainNavigation/>,children:[
-    {path:"/",element:<Home/>,loader:getAllRecipes},
+    {path:"/",element:<Home/>,loader:getAllRecipes},  
     {path:"/myRecipe",element:<Home/>,loader:getMyRecipes},
     {path:"/favRecipe",element:<Home/>,loader:getFavRecipes},
     {path:"/addRecipe",element:<AddFoodRecipe/>},
